@@ -5,7 +5,7 @@ import org.apache.commons.cli.*;
 import java.io.*;
 
 public class Main {
-
+// first part, the regex is useDelimiter("[.?!]");
     public static void main(String[] args) {
         Options options = new Options();
         options.addRequiredOption("f", "file", true, "input file to process");
