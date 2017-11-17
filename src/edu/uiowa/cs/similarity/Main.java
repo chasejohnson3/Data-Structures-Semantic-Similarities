@@ -68,13 +68,15 @@ public class Main {
         }
         words = words.toLowerCase();
 //        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
-        words = words.replaceAll("[,\\:\\;\\'\"]", "");
-        words = words.replaceAll("--", "");
-	
+
         for (int i=0; i<prohibWords.size(); i++)
         {	
             words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
         }
+        
+        words = words.replaceAll("[,\\:\\;\\'\"]", "");
+        words = words.replaceAll("--", "");
+	
         
         String[] wordsList = words.split("[.?!]");
 
