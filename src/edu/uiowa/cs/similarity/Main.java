@@ -41,8 +41,8 @@ public class Main {
                 
         File file = new File(filename);
         
-//        File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
-	File fileProhib = new File("/Users/Harsh/Desktop/3rd Year First Semester/Data Sturctures/git/semantic-similarity/stopwords.txt");
+        File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
+//	File fileProhib = new File("/Users/Harsh/Desktop/3rd Year First Semester/Data Sturctures/git/semantic-similarity/stopwords.txt");
                 
 
         if (cmd.hasOption("h")) {
@@ -80,12 +80,29 @@ public class Main {
         
         //ArrayList<String[]> word = new ArrayList<>();
         
-        
-        
+        ArrayList<String[]> listOfWordsInSentences = new ArrayList<>();
+        String[] psWords;
         for (int i=0; i<wordsList.length; i++)
         {
             wordsList[i] = ps.stem(wordsList[i]);
-            System.out.println(wordsList[i]);
+            psWords = wordsList[i].split(" ");
+            for (int j=0; j<psWords.length; j++)
+            {
+                psWords[j] = ps.stem(psWords[j]);
+            }
+            listOfWordsInSentences.add(psWords);
+//            System.out.println(wordsList[i]);
+        }
+        
+        
+        for (int i=0; i<listOfWordsInSentences.size(); i++)
+        {
+            String[] currSentence = listOfWordsInSentences.get(i);
+            for (int j=0; j<currSentence.length; j++)
+            {
+                System.out.print(currSentence[j] + " ");
+            }
+            System.out.println();
         }
         
 //        for (int i=0; i<wordsList.length; i++)
