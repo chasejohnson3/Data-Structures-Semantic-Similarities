@@ -67,7 +67,9 @@ public class Main {
             words += sc.next() + " ";
         }
         words = words.toLowerCase();
-        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
+//        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
+        words = words.replaceAll("[,\\:\\;\\'\"]", "");
+        words = words.replaceAll("--", "");
 	
         for (int i=0; i<prohibWords.size(); i++)
         {	
