@@ -41,8 +41,8 @@ public class Main {
                 
         File file = new File(filename);
         
-        File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
-//	File fileProhib = new File("/Users/Harsh/Desktop/3rd Year First Semester/Data Sturctures/git/semantic-similarity/stopwords.txt");
+        //File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
+	//File fileProhib = new File("/Users/Harsh/Desktop/3rd Year First Semester/Data Sturctures/git/semantic-similarity/stopwords.txt");
                 
 
         if (cmd.hasOption("h")) {
@@ -51,64 +51,63 @@ public class Main {
             System.exit(0);
         }
         
-        Scanner scanProhib = new Scanner(fileProhib);
-        List<String> prohibWords = new ArrayList<>();
-        
+	
+        //Scanner scanProhib = new Scanner(fileProhib);
+        //List<String> prohibWords = new ArrayList<>();
+	
+	//Thamar told us to hard code this file
+	//Above we implemented by opening file but the path was local only
+	String[] prohibWords = {"a","about","above","after","again","against","all","am","an","and","any","are","aren't","as","at","be","because","been","before","being","below","between","both","but","by","can't","cannot","could","couldn't","did","didn't","do","does","doesn't","doing","don't","down","during","each","few","for","from","further","had","hadn't","has","hasn't","have","haven't","having","he","he'd","he'll","he's","her","here","here's","hers","herself","him","himself","his","how","how's","i","i'd","i'll","i'm","i've","if","in","into","is","isn't","it","it's","its","itself","let's","me","more","most","mustn't","my","myself","no","nor","not","of","off","on","once","only","or","other","ought","our","ours","ourselves","out","over","own","same","shan't","she","she'd","she'll","she","should","shouldn't","so","some","such","than","that","that's","the","their","theirs","them","themselves","then","there","there's","these","they","they'd","they'll","they're","they've","this","those","through","to","too","under","until","up","very","was","wasn't","we","we'd","we'll","we're","we've","were","weren't","what","what's","when","when's","where","where's","which","while","who","who's","whom","why","why's","with","won't","would","wouldn't","you","you'd","you'll","you're","you've","your","yours","yourself","yourselves"};
+        /*
         scanProhib.useDelimiter("\n");
         while (scanProhib.hasNext())
         {
-//            System.out.println(scanProhib.next());
             prohibWords.add(scanProhib.next());
-        }
+        }*/
         
         Scanner sc = new Scanner(file);
-        String words = "";
+	String words = "";
         while(sc.hasNext())
         {
-            words += sc.next() + " ";
+	    words += sc.next() + " ";
         }
         words = words.toLowerCase();
-//        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
-
-//        for (int i=0; i<prohibWords.size(); i++)
-//        {	
-//            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
-//        }
 
         words = words.replaceAll("[,\\:\\;\\'\"]", "");
         words = words.replaceAll("--", "");
+	//words = words.replaceAll("-", ""); for night-cap to nightcap, sample output and the dash in there
 
-        for (int i=0; i<prohibWords.size(); i++)
+        for (int i=0; i<prohibWords.length; i++)
         {	
-            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
-            prohibWords.set(i, prohibWords.get(i).replaceAll("'", ""));
+            words = words.replaceAll("\\s*\\b"+prohibWords[i]+"\\b\\s*", " ");
+            //prohibWords.set(i, prohibWords[i].replaceAll("'", ""));
         }
-        for (int i=0; i<prohibWords.size(); i++)
+        for (int i=0; i<prohibWords.length; i++)
         {	
-            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
+            words = words.replaceAll("\\s*\\b"+prohibWords[i]+"\\b\\s*", " ");
         }
         
 	
         
         String[] wordsList = words.split("[.?!]");
-
+	String[] sentenceList = new String[wordsList.length-1];
+	for(int i = 0; i < wordsList.length-1; i++){
+		sentenceList[i] = wordsList[i];
+	}
+	System.out.println(sentenceList.length);
         PorterStemmer ps = new PorterStemmer();
-        
-        //ArrayList<String[]> word = new ArrayList<>();
-        
+       
+	
         ArrayList<String[]> listOfWordsInSentences = new ArrayList<>();
         String[] psWords;
-        for (int i=0; i<wordsList.length; i++)
+        for (int i=0; i<sentenceList.length; i++)
         {
-//            wordsList[i] = wordsList[i].replaceAll("'", "");
-            wordsList[i] = ps.stem(wordsList[i]);
-            psWords = wordsList[i].split(" ");
+            psWords = sentenceList[i].split(" ");
             for (int j=0; j<psWords.length; j++)
             {
                 psWords[j] = ps.stem(psWords[j]);
             }
             listOfWordsInSentences.add(psWords);
-//            System.out.println(wordsList[i]);
         }
         
         
@@ -121,34 +120,10 @@ public class Main {
             }
             System.out.println();
         }
+	
+	    System.out.println("Num sentences: ");
+	    System.out.println(sentenceList.length);
         
-//        for (int i=0; i<wordsList.length; i++)
-//        {
-//            word.add(wordsList[i].split(" "));
-       // }
-        
-//        System.out.print("[");
-//        for (int i=0; i<word.size(); i++)
-//        {
-//            
-//            String[] currWords = word.get(i);
-//            
-//            for (int j=0; j<currWords.length; j++)
-//            {
-//                System.out.print(currWords[j] + ",");
-//            }
-//            System.out.print("],");
-//        }
-//        System.out.println("]");
-        
-//        sc.useDelimiter("[.?!]");
-        
-//        System.out.println(words);
-//        words = words.toLowerCase();
-//        
-//        words = words.replaceAll(" a ", " ");
-//        System.out.println(words);
-        
-        sc.close();
+	sc.close();
     }
 }
