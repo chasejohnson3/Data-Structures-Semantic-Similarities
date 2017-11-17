@@ -5,6 +5,7 @@ import org.apache.commons.cli.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -40,7 +41,8 @@ public class Main {
                 
         File file = new File(filename);
         
-        File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
+//        File fileProhib = new File("C:\\Users\\User\\OneDrive - University of Iowa\\2017 Fall Semester\\Classes\\CS 2\\HW\\FinalProj\\project-team-1\\stopwords.txt");
+	File fileProhib = new File("/Users/Harsh/Desktop/3rd Year First Semester/Data Sturctures/git/semantic-similarity/stopwords.txt");
                 
 
         if (cmd.hasOption("h")) {
@@ -50,12 +52,11 @@ public class Main {
         }
         
         Scanner scanProhib = new Scanner(fileProhib);
-        ArrayList<String> prohibWords = new ArrayList<>();
+        List<String> prohibWords = new ArrayList<>();
         
         scanProhib.useDelimiter("\n");
         while (scanProhib.hasNext())
         {
-//            System.out.print()
             prohibWords.add(scanProhib.next());
         }
         
@@ -66,18 +67,18 @@ public class Main {
             words += sc.next() + " ";
         }
         words = words.toLowerCase();
-        
+        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
+	
         for (int i=0; i<prohibWords.size(); i++)
-        {
-            words = words.replaceAll("\\s*\\b" + prohibWords.get(i) + "\\b\\s*", " ");
+        {	
+            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
         }
         
-//        words = words.replaceAll(" a ", " ");
         String[] wordsList = words.split("[.?!]");
-//        System.out.println(words);
+
         PorterStemmer ps = new PorterStemmer();
         
-        ArrayList<String[]> word = new ArrayList<>();
+        //ArrayList<String[]> word = new ArrayList<>();
         
         
         
@@ -87,10 +88,10 @@ public class Main {
             System.out.println(wordsList[i]);
         }
         
-        for (int i=0; i<wordsList.length; i++)
-        {
-            word.add(wordsList[i].split(" "));
-        }
+//        for (int i=0; i<wordsList.length; i++)
+//        {
+//            word.add(wordsList[i].split(" "));
+       // }
         
 //        System.out.print("[");
 //        for (int i=0; i<word.size(); i++)
