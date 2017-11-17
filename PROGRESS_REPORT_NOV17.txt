@@ -1,5 +1,5 @@
 What is the status of your project?
-Nearly done with part 1 - just missing some root words.
+Completed part 1 with the expected output, but the runtime seems longer than it should be.
 
 
 What has each team done to ensure the success of the team?
