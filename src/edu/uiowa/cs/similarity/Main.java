@@ -57,6 +57,7 @@ public class Main {
         scanProhib.useDelimiter("\n");
         while (scanProhib.hasNext())
         {
+//            System.out.println(scanProhib.next());
             prohibWords.add(scanProhib.next());
         }
         
@@ -69,13 +70,24 @@ public class Main {
         words = words.toLowerCase();
 //        words = words.replaceAll("[,\\-\\:\\;\\'\"]", "");
 
+//        for (int i=0; i<prohibWords.size(); i++)
+//        {	
+//            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
+//        }
+
+        words = words.replaceAll("[,\\:\\;\\'\"]", "");
+        words = words.replaceAll("--", "");
+
+        for (int i=0; i<prohibWords.size(); i++)
+        {	
+            words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
+            prohibWords.set(i, prohibWords.get(i).replaceAll("'", ""));
+        }
         for (int i=0; i<prohibWords.size(); i++)
         {	
             words = words.replaceAll("\\s*\\b"+prohibWords.get(i)+"\\b\\s*", " ");
         }
         
-        words = words.replaceAll("[,\\:\\;\\'\"]", "");
-        words = words.replaceAll("--", "");
 	
         
         String[] wordsList = words.split("[.?!]");
@@ -88,6 +100,7 @@ public class Main {
         String[] psWords;
         for (int i=0; i<wordsList.length; i++)
         {
+//            wordsList[i] = wordsList[i].replaceAll("'", "");
             wordsList[i] = ps.stem(wordsList[i]);
             psWords = wordsList[i].split(" ");
             for (int j=0; j<psWords.length; j++)
