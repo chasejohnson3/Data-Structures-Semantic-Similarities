@@ -6,7 +6,9 @@ import org.apache.commons.cli.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -17,6 +19,7 @@ public class Main {
         options.addRequiredOption("f", "file", true, "input file to process");
         options.addOption("h", false, "print this help message");
 	options.addOption("s", false, "print sentences");
+        options.addOption("v", false, "print semantic description vectors");
 
         CommandLineParser parser = new DefaultParser();
 
@@ -87,42 +90,78 @@ public class Main {
        
 	
         String[] wordsList = words.split("[.?!]");
-	String[] sentenceList = new String[wordsList.length-1];
+	ArrayList<String> sentenceList = new ArrayList<>();
 	for(int i = 0; i < wordsList.length-1; i++){
-		sentenceList[i] = wordsList[i];
+		sentenceList.add(wordsList[i]);
 	}
 	
         PorterStemmer ps = new PorterStemmer();
        
-        ArrayList<String[]> listOfWordsInSentences = new ArrayList<>();
+        ArrayList<ArrayList<String>> listOfWordsInSentences = new ArrayList<>();
         String[] psWords;
-        for (int i=0; i<sentenceList.length; i++)
+        for (int i=0; i<sentenceList.size(); i++)
         {
-            psWords = sentenceList[i].split(" ");
+            psWords = sentenceList.get(i).split(" ");
             for (int j=0; j<psWords.length; j++)
             {
                 psWords[j] = ps.stem(psWords[j]);
             }
-            listOfWordsInSentences.add(psWords);
+            ArrayList<String> currSentence = new ArrayList<String>(Arrays.asList(psWords));
+            listOfWordsInSentences.add(currSentence);
         }
         
+        for (int i=0; i<listOfWordsInSentences.size(); i++)
+        {
+            for(int j=0; j<listOfWordsInSentences.get(i).size(); j++)
+            {
+                if(listOfWordsInSentences.get(i).get(j).equals(""))
+                    listOfWordsInSentences.get(i).remove(j);
+            }
+        }
 	
 	
 	 if (cmd.hasOption("s")) {
 	    for (int i=0; i<listOfWordsInSentences.size(); i++)
 	    {
-                String[] currSentence = listOfWordsInSentences.get(i);
-                for (int j=0; j<currSentence.length; j++)
+                ArrayList<String> currSentence = listOfWordsInSentences.get(i);
+                for (int j=0; j<currSentence.size(); j++)
                 {
-                    System.out.print(currSentence[j] + " ");
+                    System.out.print(currSentence.get(j) + " ");
                 }
             System.out.println();
-        }
+            }
 	    
             System.out.println("Num sentences: ");
-	    System.out.println(sentenceList.length);
+	    System.out.println(sentenceList.size());
         }
         
+        Vector vect = new Vector(listOfWordsInSentences);
+//        System.out.println(vect.mapForOneWord("know"));
+        HashMap vectors = new HashMap<String, HashMap>();
+        for (ArrayList<String> sentence: listOfWordsInSentences)
+        {
+            for (String word: sentence)
+            {
+//                System.out.println("Semantic descriptor vector for " + word + ":");
+//                System.out.println(vect.mapForOneWord(word) + "\n");
+                vectors.put(word, vect.mapForOneWord(word));
+            }
+        }
+//        
+//        
+         if (cmd.hasOption("v")){
+             vectors.forEach((key, value) -> System.out.println("Semantic desriptor vector for " + key + ":\n" + value + "\n"));
+//             for (Object nameOfVector: vectors.entrySet())
+//             {
+//                 
+//                 (HashMap<String, HashMap>) nov = nameOfVector;
+//                 System.out.println("Semantic descriptor vector for " + nameOfVector.getKey() + ":");
+//                 System.out.println(nameOfVector.getValue() + "\n");
+//             }
+                 
+         }
+         
+         
 	sc.close();
     }
 }
