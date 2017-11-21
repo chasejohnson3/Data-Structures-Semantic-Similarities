@@ -6,10 +6,16 @@ import org.apache.commons.cli.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import static java.util.Collections.reverseOrder;
+import java.util.Comparator;
+import static java.util.Comparator.comparing;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javafx.util.Pair;
 
 public class Main {
 // first part, the regex is useDelimiter("[.?!]");
@@ -20,7 +26,8 @@ public class Main {
         options.addOption("h", false, "print this help message");
 	options.addOption("s", false, "print sentences");
         options.addOption("v", false, "print semantic description vectors");
-
+        options.addOption("t", "word", true, "top j semantic matches");
+        
         CommandLineParser parser = new DefaultParser();
 
         CommandLine cmd = null;
@@ -135,7 +142,7 @@ public class Main {
 	    System.out.println(sentenceList.size());
         }
         
-        Vector vect = new Vector(listOfWordsInSentences);
+        
 //        System.out.println(vect.mapForOneWord("know"));
         HashMap vectors = new HashMap<String, HashMap>();
         for (ArrayList<String> sentence: listOfWordsInSentences)
@@ -144,7 +151,8 @@ public class Main {
             {
 //                System.out.println("Semantic descriptor vector for " + word + ":");
 //                System.out.println(vect.mapForOneWord(word) + "\n");
-                vectors.put(word, vect.mapForOneWord(word));
+                Vector vect = new Vector(listOfWordsInSentences, word);
+                vectors.put(word, vect.getVector());
             }
         }
 //        
@@ -160,6 +168,39 @@ public class Main {
 //             }
                  
          }
+         
+         String jTest= cmd.getOptionValue("t");
+         String[] jTestSeparated = jTest.split(",");
+         String argWord = jTestSeparated[0];
+         int jNum = Integer.parseInt(jTestSeparated[1]);
+         System.out.println(argWord);
+         System.out.println(jNum);
+         
+         Vector vec = new Vector(listOfWordsInSentences, argWord);
+         ArrayList<Pair<String, Double>> similarityRanking = new ArrayList<>();
+         
+        Iterator it = vectors.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
+            if (!entryPair.getKey().equals(vec.getWord()))
+            {
+                Vector compVec = new Vector(listOfWordsInSentences, entryPair.getKey());
+                Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
+                similarityRanking.add(similarityPair);
+            }
+        }
+        
+
+        // Create a comparator to order the elements of the similarity rankings based on their double values
+        final Comparator<Pair<String, Double>> c = reverseOrder(comparing(Pair::getValue));
+        // Sort the values
+        Collections.sort(similarityRanking, c);
+        // similarityRanking now contains the pairs ranked by how similar they are to the word
+        // given in the command prompt.  similarityRanking is now in the format as follows
+        // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
+        System.out.println(similarityRanking);
+
          
          
 	sc.close();

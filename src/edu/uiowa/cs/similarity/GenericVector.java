@@ -12,5 +12,5 @@ import java.util.HashMap;
  * @author User
  */
 public interface GenericVector<keyT, valT> {
-    public HashMap<keyT, valT> mapForOneWord(keyT kt);
+    public HashMap<keyT, valT> mapForOneWord();
 }
