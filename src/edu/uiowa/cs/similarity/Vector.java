@@ -35,6 +35,11 @@ public class Vector implements GenericVector<String, Integer> {
         return map;
     }
     
+    public boolean containsBaseWord()
+    {
+        return containsBaseWord;
+    }
+    
     public String getWord()
     {
         return baseWord;
@@ -84,7 +89,7 @@ public class Vector implements GenericVector<String, Integer> {
         {
             if (sentence.contains(baseWord))
             {
-                // We now know that the text does in fact contain the word 
+                // We now know that the text does in fact contain the word we are making the vector for
                 containsBaseWord = true;
                 
                 // If the current sentence contains the word we are creating

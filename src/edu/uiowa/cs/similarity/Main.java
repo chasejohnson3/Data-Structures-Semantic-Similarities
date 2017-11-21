@@ -207,7 +207,14 @@ public class Main {
                // similarityRanking now contains the pairs ranked by how similar they are to the word
                // given in the command prompt.  similarityRanking is now in the format as follows
                // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
+               
                System.out.println(similarityRanking);
+               ArrayList<Pair<String, Double>> topJNumSimilarityRanking = new ArrayList<>();
+                for (int i=0; i<jNum; i++)
+                {
+                    topJNumSimilarityRanking.add(similarityRanking.get(i));
+                }
+                System.out.println(topJNumSimilarityRanking);
             }
          }
 
