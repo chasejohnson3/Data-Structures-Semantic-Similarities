@@ -79,6 +79,7 @@ public class Main {
         {
 	    words += sc.next() + " ";
         }
+        sc.close();
         words = words.toLowerCase();
 
         words = words.replaceAll("[,\\:\\;\\'\"]", "");
@@ -175,13 +176,15 @@ public class Main {
             String[] jTestSeparated = jTest.split(",");
             String argWord = jTestSeparated[0];
             int jNum = Integer.parseInt(jTestSeparated[1]);
+            argWord = argWord.toLowerCase();
+            argWord = ps.stem(argWord);
             System.out.println(argWord);
             System.out.println(jNum);
 
             Vector vec = new Vector(listOfWordsInSentences, argWord);
             if (!vec.containsBaseWord())
             {
-                System.out.println("Cannot comput top-J similarity to Q.");
+                System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
             }
             else
             {
@@ -208,7 +211,7 @@ public class Main {
                // given in the command prompt.  similarityRanking is now in the format as follows
                // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
                
-               System.out.println(similarityRanking);
+//               System.out.println(similarityRanking);
                ArrayList<Pair<String, Double>> topJNumSimilarityRanking = new ArrayList<>();
                 for (int i=0; i<jNum; i++)
                 {
@@ -220,6 +223,6 @@ public class Main {
 
          
          
-	sc.close();
+	
     }
 }
