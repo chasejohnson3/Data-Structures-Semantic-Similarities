@@ -169,37 +169,47 @@ public class Main {
                  
          }
          
-         String jTest= cmd.getOptionValue("t");
-         String[] jTestSeparated = jTest.split(",");
-         String argWord = jTestSeparated[0];
-         int jNum = Integer.parseInt(jTestSeparated[1]);
-         System.out.println(argWord);
-         System.out.println(jNum);
-         
-         Vector vec = new Vector(listOfWordsInSentences, argWord);
-         ArrayList<Pair<String, Double>> similarityRanking = new ArrayList<>();
-         
-        Iterator it = vectors.entrySet().iterator();
-        while(it.hasNext())
-        {
-            Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
-            if (!entryPair.getKey().equals(vec.getWord()))
-            {
-                Vector compVec = new Vector(listOfWordsInSentences, entryPair.getKey());
-                Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
-                similarityRanking.add(similarityPair);
-            }
-        }
-        
+         if (cmd.hasOption("t"))
+         {
+            String jTest= cmd.getOptionValue("t");
+            String[] jTestSeparated = jTest.split(",");
+            String argWord = jTestSeparated[0];
+            int jNum = Integer.parseInt(jTestSeparated[1]);
+            System.out.println(argWord);
+            System.out.println(jNum);
 
-        // Create a comparator to order the elements of the similarity rankings based on their double values
-        final Comparator<Pair<String, Double>> c = reverseOrder(comparing(Pair::getValue));
-        // Sort the values
-        Collections.sort(similarityRanking, c);
-        // similarityRanking now contains the pairs ranked by how similar they are to the word
-        // given in the command prompt.  similarityRanking is now in the format as follows
-        // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
-        System.out.println(similarityRanking);
+            Vector vec = new Vector(listOfWordsInSentences, argWord);
+            if (!vec.containsBaseWord())
+            {
+                System.out.println("Cannot comput top-J similarity to Q.");
+            }
+            else
+            {
+                ArrayList<Pair<String, Double>> similarityRanking = new ArrayList<>();
+
+               Iterator it = vectors.entrySet().iterator();
+               while(it.hasNext())
+               {
+                   Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
+                   if (!entryPair.getKey().equals(vec.getWord()))
+                   {
+                       Vector compVec = new Vector(listOfWordsInSentences, entryPair.getKey());
+                       Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
+                       similarityRanking.add(similarityPair);
+                   }
+               }
+
+
+               // Create a comparator to order the elements of the similarity rankings based on their double values
+               final Comparator<Pair<String, Double>> c = reverseOrder(comparing(Pair::getValue));
+               // Sort the values
+               Collections.sort(similarityRanking, c);
+               // similarityRanking now contains the pairs ranked by how similar they are to the word
+               // given in the command prompt.  similarityRanking is now in the format as follows
+               // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
+               System.out.println(similarityRanking);
+            }
+         }
 
          
          
