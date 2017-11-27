@@ -11,10 +11,12 @@ import static java.util.Collections.reverseOrder;
 import java.util.Comparator;
 import static java.util.Comparator.comparing;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import javafx.util.Pair;
 
 public class Main {
@@ -30,6 +32,26 @@ public class Main {
         
         CommandLineParser parser = new DefaultParser();
 
+//        HashMap<String, Integer> hm1 = new HashMap<>();
+//        HashMap<String, Integer> hm2 = new HashMap<>();
+//        
+//        hm1.put("test1", 1);
+//        hm1.put("test2", 2);
+//        hm1.put("test3", 3);
+//        System.out.println(hm1);
+//        hm2 = hm1;
+//        System.out.println(hm2);
+//        hm2.put("test2", 5);
+//        System.out.println(hm1);
+//        System.out.println(hm2);
+//        
+//        for (Map.Entry<String, Integer> entry : hm1.entrySet())
+//        {
+//            System.out.println(entry.getKey());
+//        }
+        
+       
+        
         CommandLine cmd = null;
         try {
             cmd = parser.parse(options, args);
@@ -40,10 +62,10 @@ public class Main {
         }
 
         String filename = cmd.getOptionValue("f");
-		if (!new File(filename).exists()) {
-			System.err.println("file does not exist "+filename);
-			System.exit(1);
-		}
+        if (!new File(filename).exists()) {
+                System.err.println("file does not exist "+filename);
+                System.exit(1);
+        }
                 
         File file = new File(filename);
 	    
@@ -96,75 +118,136 @@ public class Main {
             words = words.replaceAll("\\s*\\b"+stopWords.get(i)+"\\b\\s*", " ");
         }
        
-	
+	// Add all of the sentences from the text to an ArrayList
+        // Add all of the sentences from the text to a HashMap
         String[] wordsList = words.split("[.?!]");
-	ArrayList<String> sentenceList = new ArrayList<>();
+        
+//	ArrayList<String> sentenceList = new ArrayList<>();
+        HashSet<String> sentenceSet = new HashSet<>();
 	for(int i = 0; i < wordsList.length-1; i++){
-		sentenceList.add(wordsList[i]);
+//		sentenceList.add(wordsList[i]);
+                if (!wordsList[i].equals("")) // Don't know why but ""'s are still being added
+                {
+                    sentenceSet.add(wordsList[i]);
+                }
 	}
 	
         PorterStemmer ps = new PorterStemmer();
-       
-        ArrayList<ArrayList<String>> listOfWordsInSentences = new ArrayList<>();
-        String[] psWords;
-        for (int i=0; i<sentenceList.size(); i++)
+       // Get the stem of all the words in the sentences and put them into ArrayLists
+       // Get the stem of all the words in the sentences and put them into HashMaps
+//        ArrayList<ArrayList<String>> listOfWordsInSentences = new ArrayList<>();
+//        String[] psWords;
+//        for (int i=0; i<sentenceList.size(); i++)
+//        {
+//            psWords = sentenceList.get(i).split(" ");
+//            for (int j=0; j<psWords.length; j++)
+//            {
+//                psWords[j] = ps.stem(psWords[j]);
+//            }
+//            ArrayList<String> currSentence = new ArrayList<String>(Arrays.asList(psWords));
+//            listOfWordsInSentences.add(currSentence);
+//        }
+//        HashMap<HashMap<String, Integer>, Integer> mapOfWordsInSentences = new HashMap<>();
+//        for (Map.Entry<String, Integer> entry : hm1.entrySet())
+
+        // Get the stem of all the words in all the sentences and put them into HashSets of sentences within setOfWordsInSentences
+        HashSet<HashSet<String>> setOfWordsInSentences  = new HashSet<>();
+        for (String entry : sentenceSet)
         {
-            psWords = sentenceList.get(i).split(" ");
-            for (int j=0; j<psWords.length; j++)
-            {
-                psWords[j] = ps.stem(psWords[j]);
-            }
-            ArrayList<String> currSentence = new ArrayList<String>(Arrays.asList(psWords));
-            listOfWordsInSentences.add(currSentence);
-        }
+            Scanner scanSentences = new Scanner(entry);
         
-        for (int i=0; i<listOfWordsInSentences.size(); i++)
-        {
-            for(int j=0; j<listOfWordsInSentences.get(i).size(); j++)
+            scanSentences.useDelimiter(" ");
+            HashSet<String> currSentence = new HashSet<>();
+            while (scanSentences.hasNext())
             {
-                if(listOfWordsInSentences.get(i).get(j).equals(""))
-                    listOfWordsInSentences.get(i).remove(j);
+                // Add all root words to the current sentence but only if it is not ""
+                String nextWord = ps.stem(scanSentences.next());
+//                if (!"".equals(nextWord))
+//                {
+                    currSentence.add(nextWord);
+//                }                
             }
+            setOfWordsInSentences.add(currSentence);
         }
+//        System.out.println(setOfWordsInSentences);
+//        for ()
+        
+//        for (int i=0; i<listOfWordsInSentences.size(); i++)
+//        {
+//            for(int j=0; j<listOfWordsInSentences.get(i).size(); j++)
+//            {
+//                if(listOfWordsInSentences.get(i).get(j).equals(""))
+//                    listOfWordsInSentences.get(i).remove(j);
+//            }
+//        }
+//        String test = "glum";
+//        System.out.println(test.equals(""));
+//        int i=0;
+
+//        for (HashSet<String> hs: setOfWordsInSentences)
+//        {
+//            for (String s: hs)
+//            {
+//                if (s == null || test.equals(s) || test.compareTo(s) == 0 || s == " ")
+//                {
+//                    hs.remove(s);
+//                    
+//                }
+//                i++;
+//            }
+//        }
+        
+        
 	
 	
 	 if (cmd.hasOption("s")) {
-	    for (int i=0; i<listOfWordsInSentences.size(); i++)
-	    {
-                ArrayList<String> currSentence = listOfWordsInSentences.get(i);
-                for (int j=0; j<currSentence.size(); j++)
-                {
-                    System.out.print(currSentence.get(j) + " ");
-                }
-            System.out.println();
+//	    for (int i=0; i<listOfWordsInSentences.size(); i++)
+//	    {
+//                ArrayList<String> currSentence = listOfWordsInSentences.get(i);
+//                for (int j=0; j<currSentence.size(); j++)
+//                {
+//                    System.out.print(currSentence.get(j) + " ");
+//                }
+//            System.out.println();
+//            }
+            for (HashSet<String> currSentence: setOfWordsInSentences)
+            {
+                System.out.println(currSentence);
             }
 	    
-            System.out.println("Num sentences: ");
-	    System.out.println(sentenceList.size());
+            System.out.println("Num sentences: " + setOfWordsInSentences.size());
+//	    System.out.println(sentenceList.size());
+            
         }
         
         
 //        System.out.println(vect.mapForOneWord("know"));
+// 
+
+// FIX VECTORS NEXT!!!!
+
+
+
         HashMap vectors = new HashMap<String, HashMap>();
-        for (ArrayList<String> sentence: listOfWordsInSentences)
+        for (HashSet<String> sentence: setOfWordsInSentences)
         {
             for (String word: sentence)
             {
 //                System.out.println("Semantic descriptor vector for " + word + ":");
 //                System.out.println(vect.mapForOneWord(word) + "\n");
-                Vector vect = new Vector(listOfWordsInSentences, word);
+                Vector vect = new Vector(setOfWordsInSentences, word);
                 vectors.put(word, vect.getVector());
             }
         }
-//        
-//        
+        
+        
          if (cmd.hasOption("v")){
              vectors.forEach((key, value) -> System.out.println("Semantic desriptor vector for " + key + ":\n" + value + "\n"));
-//             for (Object nameOfVector: vectors.entrySet())
+//             for (HashMap<String, HashMap> nameOfVector: vectors.entrySet())
 //             {
-//                 
+                 
 //                 (HashMap<String, HashMap>) nov = nameOfVector;
-//                 System.out.println("Semantic descriptor vector for " + nameOfVector.getKey() + ":");
+//                 System.out.println("Semantic descriptor vector for " + (HashMap<String, HashMap>) nameOfVector.getKey() + ":");
 //                 System.out.println(nameOfVector.getValue() + "\n");
 //             }
                  
@@ -181,7 +264,7 @@ public class Main {
             System.out.println(argWord);
             System.out.println(jNum);
 
-            Vector vec = new Vector(listOfWordsInSentences, argWord);
+            Vector vec = new Vector(setOfWordsInSentences, argWord);
             if (!vec.containsBaseWord())
             {
                 System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
@@ -196,7 +279,7 @@ public class Main {
                    Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
                    if (!entryPair.getKey().equals(vec.getWord()))
                    {
-                       Vector compVec = new Vector(listOfWordsInSentences, entryPair.getKey());
+                       Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
                        similarityRanking.add(similarityPair);
                    }
