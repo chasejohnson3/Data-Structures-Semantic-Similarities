@@ -23,13 +23,13 @@ public class Vector implements GenericVector<String, Integer> {
     private boolean containsBaseWord = false;
     
 
-    public Vector(ArrayList<ArrayList<String>> words, String vectorWord)
-    {
-        wordsGrid = words;
-        baseWord = vectorWord;
-        map = this.mapForOneWord();
-        
-    }
+//    public Vector(ArrayList<ArrayList<String>> words, String vectorWord)
+//    {
+//        wordsGrid = words;
+//        baseWord = vectorWord;
+//        map = this.mapForOneWord();
+//        
+//    }
     
     public Vector(HashSet<HashSet<String>> words, String vectorWord)
     {
@@ -62,7 +62,10 @@ public class Vector implements GenericVector<String, Integer> {
 
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
-            simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
+            if (comparisonVec.getVector().containsKey(entry.getKey()))
+            {
+                simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
+            }
         }
         
         // Find the maginitude of this vector for part of the denominator
@@ -174,28 +177,33 @@ public class Vector implements GenericVector<String, Integer> {
                                 map.put(wordInSentence, 1);
                             }
                         }
+                        
                         else
                         {
                             // The value of the word we are making the vector for 
                             // should be zero
                             map.put(baseWord, 0);
                         }
-//                    }
-                }
-            }
-            else
-            {
-                // If the current sentence does not contain the word we are
-                // creating the vector for, add words to the vector with a value
-                // of zero
-                for (String wordInSentence: sentence)
-                {
-                    if (!map.containsKey(wordInSentence))
-                    {
-                        map.put(wordInSentence, 0);
                     }
                 }
-            }
+            
+            
+            // I am testing if I can not add the words that are not in the sentence (no values of 0 in the map)
+            
+//            }
+//            else
+//            {
+//                // If the current sentence does not contain the word we are
+//                // creating the vector for, add words to the vector with a value
+//                // of zero
+//                for (String wordInSentence: sentence)
+//                {
+//                    if (!map.containsKey(wordInSentence))
+//                    {
+//                        map.put(wordInSentence, 0);
+//                    }
+//                }
+//            }
         }
         return map;
     }
