@@ -21,6 +21,7 @@ public class Vector implements GenericVector<String, Integer> {
     private HashSet<HashSet<String>> wordsGridSet;
     private String baseWord;
     private boolean containsBaseWord = false;
+    private double magnitude;
     
 
 //    public Vector(ArrayList<ArrayList<String>> words, String vectorWord)
@@ -33,9 +34,12 @@ public class Vector implements GenericVector<String, Integer> {
     
     public Vector(HashSet<HashSet<String>> words, String vectorWord)
     {
+        magnitude = 0;
         wordsGridSet = words;
         baseWord = vectorWord;
         map = this.mapForOneWord();
+        
+        
         
     }
     
@@ -54,6 +58,12 @@ public class Vector implements GenericVector<String, Integer> {
     {
         return baseWord;
     }
+    
+    public double getMagnitude()
+    {
+        return magnitude;
+    }
+    
     // Use this to calculate the cosine similarity between two vectors
     public double cosineSimilarity(Vector comparisonVec)
     {
@@ -69,22 +79,29 @@ public class Vector implements GenericVector<String, Integer> {
         }
         
         // Find the maginitude of this vector for part of the denominator
-        double thisMagnitude = 0;
+//        double thisMagnitude = 0;
 
-        for (Map.Entry<String, Integer> entry : map.entrySet())
-        {
-            thisMagnitude += entry.getValue()*entry.getValue();
-        }
+//        for (Map.Entry<String, Integer> entry : map.entrySet())
+//        {
+//            thisMagnitude += entry.getValue()*entry.getValue();
+//        }
         
         // Find the magnitude of the vector we are comparing for the other part of the denominator
-        double compMagnitude = 0;
-        Iterator itCompMag = map.entrySet().iterator();
+//        double compMagnitude = 0;
+//        Iterator itCompMag = map.entrySet().iterator();
 
-        for (Map.Entry<String, Integer> entry : map.entrySet())
-        {
-            compMagnitude += entry.getValue()*entry.getValue();
-        }
-        return simSum/Math.sqrt(thisMagnitude*compMagnitude);
+//        for (Map.Entry<String, Integer> entry : map.entrySet())
+//        {
+//            compMagnitude += entry.getValue()*entry.getValue();
+////            System.out.print("Test");
+//        }
+        System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + comparisonVec.getMagnitude() + ") = " + simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude()));
+        
+//        return simSum/Math.sqrt(thisMagnitude*compMagnitude);
+        if (magnitude == 0 || comparisonVec.getMagnitude() == 0)
+            return 0;
+        else
+            return simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude());
     }
     
 //    @Override
@@ -160,32 +177,34 @@ public class Vector implements GenericVector<String, Integer> {
                 // the word's hashmap (vector)
                 for(String wordInSentence: sentence)
                 {
-//                    if (!wordInSentence.equals(""))
-//                    {
-                        if (!wordInSentence.equals(baseWord))
+                    if (!wordInSentence.equals(baseWord))
+                    {
+                        if(map.containsKey(wordInSentence))
                         {
-                            if(map.containsKey(wordInSentence))
-                            {
-                                // If the vector already contains this word in the 
-                                // key, add to the value
-                                map.put(wordInSentence, map.get(wordInSentence) + 1);
-                            }
-                            else
-                            {
-                                // If the vector does not have a record of the word
-                                // we are currently looking at, make its value 1
-                                map.put(wordInSentence, 1);
-                            }
+                            // If the vector already contains this word in the 
+                            // key, add to the value
+                            map.put(wordInSentence, map.get(wordInSentence) + 1);
                         }
-                        
                         else
                         {
-                            // The value of the word we are making the vector for 
-                            // should be zero
-                            map.put(baseWord, 0);
+                            // If the vector does not have a record of the word
+                            // we are currently looking at, make its value 1
+                            map.put(wordInSentence, 1);
+//                            magnitude++;
                         }
+                        magnitude++;
                     }
+
+                    else
+                    {
+                        // The value of the word we are making the vector for 
+                        // should be zero
+                        map.put(baseWord, 0);
+                    }
+                    
                 }
+                
+            }
             
             
             // I am testing if I can not add the words that are not in the sentence (no values of 0 in the map)
@@ -193,6 +212,8 @@ public class Vector implements GenericVector<String, Integer> {
 //            }
 //            else
 //            {
+//                magnitude++;
+                
 //                // If the current sentence does not contain the word we are
 //                // creating the vector for, add words to the vector with a value
 //                // of zero
