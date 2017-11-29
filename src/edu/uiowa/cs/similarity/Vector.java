@@ -64,7 +64,8 @@ public class Vector implements GenericVector<String, Integer> {
         int mag = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
-            mag+= entry.getValue()*entry.getValue();
+            if (entry.getValue() != 0)
+                mag+= entry.getValue()*entry.getValue();
         }
         return mag;
     }
@@ -77,9 +78,12 @@ public class Vector implements GenericVector<String, Integer> {
 
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
-            if (comparisonVec.getVector().containsKey(entry.getKey()))
+            if (entry.getValue() != 0)
             {
-                simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
+                if (comparisonVec.getVector().containsKey(entry.getKey()) && comparisonVec.getVector().get(entry.getKey()) != 0)
+                {
+                    simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
+                }
             }
         }
         
