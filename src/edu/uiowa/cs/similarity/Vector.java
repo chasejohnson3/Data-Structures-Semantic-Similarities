@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class Vector implements GenericVector<String, Integer> {
     private HashMap<String, Integer> map;
-    private ArrayList<ArrayList<String>> wordsGrid;
+//    private ArrayList<ArrayList<String>> wordsGrid;
     private HashSet<HashSet<String>> wordsGridSet;
     private String baseWord;
     private boolean containsBaseWord = false;
@@ -61,7 +61,12 @@ public class Vector implements GenericVector<String, Integer> {
     
     public double getMagnitude()
     {
-        return magnitude;
+        int mag = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet())
+        {
+            mag+= entry.getValue()*entry.getValue();
+        }
+        return mag;
     }
     
     // Use this to calculate the cosine similarity between two vectors
@@ -98,10 +103,11 @@ public class Vector implements GenericVector<String, Integer> {
         System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + comparisonVec.getMagnitude() + ") = " + simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude()));
         
 //        return simSum/Math.sqrt(thisMagnitude*compMagnitude);
-        if (magnitude == 0 || comparisonVec.getMagnitude() == 0)
+        if (this.getMagnitude()== 0 || comparisonVec.getMagnitude() == 0)
             return 0;
         else
-            return simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude());
+            return simSum/Math.sqrt(this.getMagnitude()*comparisonVec.getMagnitude());
+//            return simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude());
     }
     
 //    @Override
@@ -201,9 +207,7 @@ public class Vector implements GenericVector<String, Integer> {
                         // should be zero
                         map.put(baseWord, 0);
                     }
-                    
-                }
-                
+                }                
             }
             
             

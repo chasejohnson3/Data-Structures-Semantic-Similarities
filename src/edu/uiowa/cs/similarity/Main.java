@@ -229,6 +229,7 @@ public class Main {
 
 
         HashMap vectors = new HashMap<String, HashMap>();
+        // This for each loop that uses the vector constructor is what takes so long
         for (HashSet<String> sentence: setOfWordsInSentences)
         {
             for (String word: sentence)
@@ -267,6 +268,7 @@ public class Main {
             Vector vec = new Vector(setOfWordsInSentences, argWord);
             if (!vec.containsBaseWord())
             {
+                // If we can't find the base word the user wants to find, let them know
                 System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
             }
             else
@@ -276,12 +278,18 @@ public class Main {
                Iterator it = vectors.entrySet().iterator();
                while(it.hasNext())
                {
+                   // Make a vector for every word 
                    Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
                    if (!entryPair.getKey().equals(vec.getWord()))
                    {
-                       Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
-                       Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
-                       similarityRanking.add(similarityPair);
+                        Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
+                        // A pair holds a word and its corresponding semantic descriptor score
+                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
+                        if (similarityPair != null)
+                        {
+                            // Add to the list of pairs that hold a word and its semantic descriptor score
+                             similarityRanking.add(similarityPair);
+                        }
                    }
                }
 
@@ -303,9 +311,5 @@ public class Main {
                 System.out.println(topJNumSimilarityRanking);
             }
          }
-
-         
-         
-	
     }
 }
