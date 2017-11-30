@@ -243,15 +243,13 @@ public class Main {
         
         
          if (cmd.hasOption("v")){
-             vectors.forEach((key, value) -> System.out.println("Semantic desriptor vector for " + key + ":\n" + value + "\n"));
-//             for (HashMap<String, HashMap> nameOfVector: vectors.entrySet())
-//             {
-                 
-//                 (HashMap<String, HashMap>) nov = nameOfVector;
-//                 System.out.println("Semantic descriptor vector for " + (HashMap<String, HashMap>) nameOfVector.getKey() + ":");
-//                 System.out.println(nameOfVector.getValue() + "\n");
-//             }
-                 
+             Iterator it = vectors.entrySet().iterator();
+               while(it.hasNext())
+               {
+                   // Make a vector for every word 
+                   Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
+                   System.out.println("Semantic desriptor vector for " + entryPair.getKey() + ":\n" + entryPair.getValue() + "\n");
+               }
          }
          
          if (cmd.hasOption("t"))
