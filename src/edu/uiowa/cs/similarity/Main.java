@@ -104,8 +104,8 @@ public class Main {
         sc.close();
         words = words.toLowerCase();
 
-        words = words.replaceAll("[,\\:\\;\\'\"]", "");
-        words = words.replaceAll("--", "");
+        words = words.replaceAll("[,\\:\\--\\;\\'\"]", "");
+        //words = words.replaceAll("--", "");
 	//words = words.replaceAll("-", ""); for night-cap to nightcap, sample output and the dash in there
 
         for (int i=0; i<stopWords.size(); i++)
