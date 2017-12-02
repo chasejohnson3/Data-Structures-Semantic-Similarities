@@ -75,16 +75,15 @@ public class Vector implements GenericVector<String, Integer> {
     {
         //Do the dot product for the numerator
         double simSum = 0;
-        int mag = 0;
+
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
             if (entry.getValue() != 0)
             {
                 if (comparisonVec.getVector().containsKey(entry.getKey()) && comparisonVec.getVector().get(entry.getKey()) != 0)
                 {
-                    simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());                    
+                    simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
                 }
-                mag += entry.getValue()*entry.getValue();
             }
         }
         
@@ -111,7 +110,7 @@ public class Vector implements GenericVector<String, Integer> {
         if (this.getMagnitude()== 0 || comparisonVec.getMagnitude() == 0)
             return 0;
         else
-            return simSum/Math.sqrt(mag*comparisonVec.getMagnitude());
+            return simSum/Math.sqrt(this.getMagnitude()*comparisonVec.getMagnitude());
 //            return simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude());
     }
     
