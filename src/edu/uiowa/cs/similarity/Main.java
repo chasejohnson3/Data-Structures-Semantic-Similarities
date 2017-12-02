@@ -104,8 +104,14 @@ public class Main {
         sc.close();
         words = words.toLowerCase();
 
+<<<<<<< HEAD
         words = words.replaceAll("[,\\:\\--\\;\\'\"]", "");
         //words = words.replaceAll("--", "");
+=======
+//        words = words.replaceAll("[,\\:\\;\\'\"]", "");
+        words = words.replaceAll(",|, |--|:|;|\"|'", "");
+//        words = words.replaceAll("--", "");
+>>>>>>> a11985d8026f54b03320b2357d70dc4226b87b31
 	//words = words.replaceAll("-", ""); for night-cap to nightcap, sample output and the dash in there
 
         for (int i=0; i<stopWords.size(); i++)
@@ -169,33 +175,6 @@ public class Main {
             }
             setOfWordsInSentences.add(currSentence);
         }
-//        System.out.println(setOfWordsInSentences);
-//        for ()
-        
-//        for (int i=0; i<listOfWordsInSentences.size(); i++)
-//        {
-//            for(int j=0; j<listOfWordsInSentences.get(i).size(); j++)
-//            {
-//                if(listOfWordsInSentences.get(i).get(j).equals(""))
-//                    listOfWordsInSentences.get(i).remove(j);
-//            }
-//        }
-//        String test = "glum";
-//        System.out.println(test.equals(""));
-//        int i=0;
-
-//        for (HashSet<String> hs: setOfWordsInSentences)
-//        {
-//            for (String s: hs)
-//            {
-//                if (s == null || test.equals(s) || test.compareTo(s) == 0 || s == " ")
-//                {
-//                    hs.remove(s);
-//                    
-//                }
-//                i++;
-//            }
-//        }
         
         
 	
