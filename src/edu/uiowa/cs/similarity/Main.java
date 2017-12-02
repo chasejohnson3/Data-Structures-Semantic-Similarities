@@ -126,30 +126,16 @@ public class Main {
         
 	
 	
-	 if (cmd.hasOption("s")) {
-//	    for (int i=0; i<listOfWordsInSentences.size(); i++)
-//	    {
-//                ArrayList<String> currSentence = listOfWordsInSentences.get(i);
-//                for (int j=0; j<currSentence.size(); j++)
-//                {
-//                    System.out.print(currSentence.get(j) + " ");
-//                }
-//            System.out.println();
-//            }
+	 if (cmd.hasOption("s")) {  
             for (HashSet<String> currSentence: setOfWordsInSentences)
             {
                 System.out.println(currSentence);
             }
 	    
             System.out.println("Num sentences: " + setOfWordsInSentences.size());
-//	    System.out.println(sentenceList.size());
             
         }
         
-        
-//        System.out.println(vect.mapForOneWord("know"));
-// 
-
 // FIX VECTORS NEXT!!!!
 
 
@@ -160,8 +146,6 @@ public class Main {
         {
             for (String word: sentence)
             {
-//                System.out.println("Semantic descriptor vector for " + word + ":");
-//                System.out.println(vect.mapForOneWord(word) + "\n");
                 Vector vect = new Vector(setOfWordsInSentences, word);
                 vectors.put(word, vect.getVector());
             }
