@@ -98,15 +98,33 @@ public class Vector implements GenericVector<String, Integer> {
     {
         //Do the dot product for the numerator
         double magnitudeSum = 0;
+        double vecMag = 0;
+        double compVecMag = 0;
+        HashMap<String, Integer> compMap = comparisonVec.getVector();
 
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
-            if (entry.getValue() != 0 || comparisonVec.getVector().get(entry) != 0)
+            if (compMap.containsKey(entry.getKey()))
             {
-                magnitudeSum += (entry.getValue() - comparisonVec.getVector().get(entry)) * (entry.getValue() - comparisonVec.getVector().get(entry));
+                // Find the value of the given entry in the comparison vector
+                compVecMag = compMap.get(entry.getKey());
+                // Remove the entry in the comparison vector so we know what entries have not been considered yet
+                compMap.remove(entry.getKey());
+            }            
+            else
+            {
+                compVecMag = 0;
             }
+            magnitudeSum += (compVecMag-entry.getValue())*(compVecMag-entry.getValue());
         }
-        return Math.sqrt(magnitudeSum);
+        // The comparisonVec will hold some entries map did not, and we have to add them to the magnitude (map's value would be 0 for this entry)
+        for (Map.Entry<String, Integer> entry : compMap.entrySet())
+        {
+            magnitudeSum += (entry.getValue())*(entry.getValue());
+        }
+        
+        
+        return -1*Math.sqrt(magnitudeSum);
     }
     
     
@@ -151,10 +169,7 @@ public class Vector implements GenericVector<String, Integer> {
                     }
                 }                
             }
+        }
         return map;
-    }
-        
-    
-
-    
+    } 
 }
