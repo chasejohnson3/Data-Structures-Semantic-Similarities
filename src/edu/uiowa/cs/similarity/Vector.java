@@ -194,7 +194,7 @@ public class Vector implements GenericVector<String, Integer> {
                             // If the vector already contains this word in the 
                             // key, add to the value
                             map.put(wordInSentence, map.get(wordInSentence) + 1);
-                        }
+                             }
                         else
                         {
                             // If the vector does not have a record of the word
