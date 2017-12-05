@@ -233,53 +233,53 @@ public class Main {
                 similarityMeasureType = cmd.getOptionValue("m");
             }
             
-//            topK(function, Vector, HashMap);
+//            Iterator<String>
             
-            Vector vec = new Vector(setOfWordsInSentences, argWord);
-            if (!vec.containsBaseWord())
-            {
-                // If we can't find the base word the user wants to find, let them know
-                System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
-            }
-            else
-            {
-                ArrayList<Pair<String, Double>> similarityRanking = new ArrayList<>();
-
-               Iterator it = vectors.entrySet().iterator();
-               while(it.hasNext())
-               {
-                   // Make a vector for every word 
-                   Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
-                   if (!entryPair.getKey().equals(vec.getWord()))
-                   {
-                        Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
-                        // A pair holds a word and its corresponding semantic descriptor score
-                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec.getVector()));
-                        if (similarityPair != null)
-                        {
-                            // Add to the list of pairs that hold a word and its semantic descriptor score
-                             similarityRanking.add(similarityPair);
-                        }
-                   }
-               }
-
-
-               // Create a comparator to order the elements of the similarity rankings based on their double values
-               final Comparator<Pair<String, Double>> c = reverseOrder(comparing(Pair::getValue));
-               // Sort the values
-               Collections.sort(similarityRanking, c);
-               // similarityRanking now contains the pairs ranked by how similar they are to the word
-               // given in the command prompt.  similarityRanking is now in the format as follows
-               // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
-               
-//               System.out.println(similarityRanking);
-               ArrayList<Pair<String, Double>> topJNumSimilarityRanking = new ArrayList<>();
-                for (int i=0; i<jNum; i++)
-                {
-                    topJNumSimilarityRanking.add(similarityRanking.get(i));
-                }
-                System.out.println(topJNumSimilarityRanking);
-            }
+//            Vector vec = new Vector(setOfWordsInSentences, argWord);
+//            if (!vec.containsBaseWord())
+//            {
+//                // If we can't find the base word the user wants to find, let them know
+//                System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
+//            }
+//            else
+//            {
+//                ArrayList<Pair<String, Double>> similarityRanking = new ArrayList<>();
+//
+//               Iterator it = vectors.entrySet().iterator();
+//               while(it.hasNext())
+//               {
+//                   // Make a vector for every word 
+//                   Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
+//                   if (!entryPair.getKey().equals(vec.getWord()))
+//                   {
+//                        Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
+//                        // A pair holds a word and its corresponding semantic descriptor score
+//                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec.getVector()));
+//                        if (similarityPair != null)
+//                        {
+//                            // Add to the list of pairs that hold a word and its semantic descriptor score
+//                             similarityRanking.add(similarityPair);
+//                        }
+//                   }
+//               }
+//
+//
+//               // Create a comparator to order the elements of the similarity rankings based on their double values
+//               final Comparator<Pair<String, Double>> c = reverseOrder(comparing(Pair::getValue));
+//               // Sort the values
+//               Collections.sort(similarityRanking, c);
+//               // similarityRanking now contains the pairs ranked by how similar they are to the word
+//               // given in the command prompt.  similarityRanking is now in the format as follows
+//               // [wolf=0.8, tiger=0.8, fox=0.8, squirrel=0.8, dog=0.8, banana=0.0, nine=0.0, parslei=0.0 ........ ]
+//               
+////               System.out.println(similarityRanking);
+//               ArrayList<Pair<String, Double>> topJNumSimilarityRanking = new ArrayList<>();
+//                for (int i=0; i<jNum; i++)
+//                {
+//                    topJNumSimilarityRanking.add(similarityRanking.get(i));
+//                }
+//                System.out.println(topJNumSimilarityRanking);
+//            }
         }
     }
 }
