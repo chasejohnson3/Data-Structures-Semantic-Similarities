@@ -29,7 +29,7 @@ public class Main {
 	options.addOption("s", false, "print sentences");
         options.addOption("v", false, "print semantic description vectors");
         options.addOption("t", "word", true, "top j semantic matches");
-        options.addOption("e", false, "compute the negative euclidean distance");
+        options.addOption("e", "word", true, "compute the negative euclidean distance");
         
         CommandLineParser parser = new DefaultParser();
 
@@ -167,30 +167,30 @@ public class Main {
         // THIS IS FOR TESTING!!!!
 //        if (cmd.hasOption("e"))
 //        {
-//           String argWord= cmd.getOptionValue("e");
-//           argWord = argWord.toLowerCase();
-//           argWord = ps.stem(argWord);
-//           System.out.println(argWord);
+//            String argWord= cmd.getOptionValue("e");
+//            argWord = argWord.toLowerCase();
+//            argWord = ps.stem(argWord);
+//            System.out.println(argWord);
 //
-//           Vector vec = new Vector(setOfWordsInSentences, argWord);
-//           if (!vec.containsBaseWord())
-//           {
-//               // If we can't find the base word the user wants to find, let them know
-////                System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
-//               System.out.println("Can't find " + argWord);
-//           }
-//           else
-//           {
-//              Iterator it = vectors.entrySet().iterator();
-//              while(it.hasNext())
-//              {
-////                   // Make a vector for every word 
-//                  Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
-//                  Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
-//                  System.out.println("Negative Euclidean distance between " + vec.getWord() + " and " + compVec.getWord() + " is " + vec.negEuclideanDist(compVec));
-//               }
-//           }
-//       }
+//            Vector vec = new Vector(setOfWordsInSentences, argWord);
+//            if (!vec.containsBaseWord())
+//            {
+//                // If we can't find the base word the user wants to find, let them know
+// //                System.out.println("Cannot compute top-" + jNum + " similarity to " + argWord + ".");
+//                System.out.println("Can't find " + argWord);
+//            }
+//            else
+//            {
+//                Iterator it = vectors.entrySet().iterator();
+//                while(it.hasNext())
+//                {
+//  //                   // Make a vector for every word 
+//                    Map.Entry<String, Integer> entryPair = (Map.Entry) it.next();
+//                    Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
+//                    System.out.println("Negative Euclidean distance between " + vec.getWord() + " and " + compVec.getWord() + " is " + vec.negEuclideanDist(compVec));
+//                 }
+//            }
+//        }
         
         
         
@@ -270,6 +270,5 @@ public class Main {
                 System.out.println(topJNumSimilarityRanking);
             }
         }
-        
     }
 }
