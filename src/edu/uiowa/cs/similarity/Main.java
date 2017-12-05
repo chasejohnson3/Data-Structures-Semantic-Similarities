@@ -224,6 +224,12 @@ public class Main {
             System.out.println(argWord);
             System.out.println(jNum);
 
+            String similarityMeasureType = "";
+            if (cmd.hasOption("m"))
+            {
+                similarityMeasureType = cmd.getOptionValue("m");
+            }
+            
 //            topK(function, Vector, HashMap);
             
             Vector vec = new Vector(setOfWordsInSentences, argWord);
