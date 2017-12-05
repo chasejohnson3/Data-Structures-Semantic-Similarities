@@ -224,6 +224,8 @@ public class Main {
             System.out.println(argWord);
             System.out.println(jNum);
 
+//            topK(function, Vector, HashMap);
+            
             Vector vec = new Vector(setOfWordsInSentences, argWord);
             if (!vec.containsBaseWord())
             {
@@ -243,7 +245,7 @@ public class Main {
                    {
                         Vector compVec = new Vector(setOfWordsInSentences, entryPair.getKey());
                         // A pair holds a word and its corresponding semantic descriptor score
-                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec));
+                        Pair<String, Double> similarityPair = new Pair<String, Double>(entryPair.getKey(), vec.cosineSimilarity(compVec.getVector()));
                         if (similarityPair != null)
                         {
                             // Add to the list of pairs that hold a word and its semantic descriptor score

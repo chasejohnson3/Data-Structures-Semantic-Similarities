@@ -5,13 +5,10 @@
  */
 package edu.uiowa.cs.similarity;
 
-import java.util.HashMap;
-
 /**
  *
  * @author User
  */
-public interface GenericVector<keyT, valT> {
-    public HashMap<keyT, valT> mapForOneWord();
-    
+public interface TopKFunction<InFunc, InVec, InMap>{
+    public void topK(InFunc x, InVec vec, InMap map);
 }

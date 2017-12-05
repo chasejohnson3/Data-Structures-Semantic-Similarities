@@ -79,7 +79,7 @@ public class Vector implements GenericVector<String, Integer> {
     }
     
     // Use this to calculate the cosine similarity between two vectors
-    public double cosineSimilarity(Vector comparisonVec)
+    public double cosineSimilarity(HashMap<String, Integer> compMap)
     {
         //Do the dot product for the numerator
         double simSum = 0;
@@ -88,20 +88,20 @@ public class Vector implements GenericVector<String, Integer> {
         {
             if (entry.getValue() != 0)
             {
-                if (comparisonVec.getVector().containsKey(entry.getKey()) && comparisonVec.getVector().get(entry.getKey()) != 0)
+                if (compMap.containsKey(entry.getKey()) && compMap.get(entry.getKey()) != 0)
                 {
-                    simSum += entry.getValue() * comparisonVec.getVector().get(entry.getKey());
+                    simSum += entry.getValue() * compMap.get(entry.getKey());
                 }
             }
         }
         
    
-        System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + getMagnitude(comparisonVec.getVector()) + ") = " + simSum/Math.sqrt(magnitude*getMagnitude(comparisonVec.getVector())));
+//        System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + getMagnitude(compMap) + ") = " + simSum/Math.sqrt(magnitude*getMagnitude(comparisonVec.getVector())));
         
-        if (getMagnitude(map)== 0 || getMagnitude(comparisonVec.getVector()) == 0)
+        if (getMagnitude(map)== 0 || getMagnitude(compMap) == 0)
             return 0;
         else
-            return simSum/Math.sqrt(getMagnitude(map)*getMagnitude(comparisonVec.getVector()));
+            return simSum/Math.sqrt(getMagnitude(map)*getMagnitude(compMap));
     }
     
     // Use this to calculate the negative Euclidean distance between vectors
