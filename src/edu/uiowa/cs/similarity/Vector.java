@@ -40,10 +40,21 @@ public class Vector implements GenericVector<String, Integer> {
         map = this.mapForOneWord();      
     }
     
-    
+     
     public HashMap<String, Integer> getVector()
     {
         return map;
+    }
+    
+    // This is for testing purposes
+    public Vector()
+    {
+        magnitude = 0;        
+    }  
+    // This is for testing purposes
+    public void setMap(HashMap<String, Integer> hm)
+    {
+        map = hm;
     }
     
     public boolean containsBaseWord()
@@ -56,10 +67,10 @@ public class Vector implements GenericVector<String, Integer> {
         return baseWord;
     }
     
-    public double getMagnitude()
+    public double getMagnitude(HashMap<String, Integer> hm)
     {
         int mag = 0;
-        for (Map.Entry<String, Integer> entry : map.entrySet())
+        for (Map.Entry<String, Integer> entry : hm.entrySet())
         {
             if (entry.getValue() != 0)
                 mag+= entry.getValue()*entry.getValue();
@@ -85,22 +96,21 @@ public class Vector implements GenericVector<String, Integer> {
         }
         
    
-        System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + comparisonVec.getMagnitude() + ") = " + simSum/Math.sqrt(magnitude*comparisonVec.getMagnitude()));
+        System.out.println(comparisonVec.getWord() + " " + simSum + "/sqrt(" + magnitude + "*" + getMagnitude(comparisonVec.getVector()) + ") = " + simSum/Math.sqrt(magnitude*getMagnitude(comparisonVec.getVector())));
         
-        if (this.getMagnitude()== 0 || comparisonVec.getMagnitude() == 0)
+        if (getMagnitude(map)== 0 || getMagnitude(comparisonVec.getVector()) == 0)
             return 0;
         else
-            return simSum/Math.sqrt(this.getMagnitude()*comparisonVec.getMagnitude());
+            return simSum/Math.sqrt(getMagnitude(map)*getMagnitude(comparisonVec.getVector()));
     }
     
     // Use this to calculate the negative Euclidean distance between vectors
-    public double negEuclideanDist(Vector comparisonVec)
+    public double negEuclideanDist(HashMap<String, Integer> compMap)
     {
-        //Do the dot product for the numerator
         double magnitudeSum = 0;
         double vecMag = 0;
         double compVecMag = 0;
-        HashMap<String, Integer> compMap = comparisonVec.getVector();
+//        HashMap<String, Integer> compMap = comparisonVec.getVector();
 
         for (Map.Entry<String, Integer> entry : map.entrySet())
         {
@@ -125,6 +135,40 @@ public class Vector implements GenericVector<String, Integer> {
         
         
         return -1*Math.sqrt(magnitudeSum);
+    }
+    
+    // Use this to calculate the normalized negative Euclidean distance between vectors
+    public double normalizedNegEuclideanDist(HashMap<String, Integer> compMap)
+    {
+        double magnitudeComp = Math.sqrt(getMagnitude(compMap));
+        double magnitudeThis = Math.sqrt(getMagnitude(map));
+        double compVecElement = 0;
+        double sumOfMags = 0;
+//        HashMap<String, Integer> compMap = comparisonVec.getVector();
+
+        for (Map.Entry<String, Integer> entry : map.entrySet())
+        {
+            if (compMap.containsKey(entry.getKey()))
+            {
+                // Find the value of the given entry in the comparison vector
+                compVecElement = compMap.get(entry.getKey());
+                // Remove the entry in the comparison vector so we know what entries have not been considered yet
+                compMap.remove(entry.getKey());
+            }            
+            else
+            {
+                compVecElement = 0;
+            }
+            sumOfMags += (compVecElement/magnitudeComp-entry.getValue()/magnitudeThis)*(compVecElement/magnitudeComp-entry.getValue()/magnitudeThis);
+        }
+        // The comparisonVec will hold some entries map did not, and we have to add them to the magnitude (map's value would be 0 for this entry)
+        for (Map.Entry<String, Integer> entry : compMap.entrySet())
+        {
+            sumOfMags += (entry.getValue()/magnitudeComp)*(entry.getValue()/magnitudeComp);
+        }
+        
+        
+        return -1*Math.sqrt(sumOfMags);
     }
     
     
