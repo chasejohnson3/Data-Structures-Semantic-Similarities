@@ -32,25 +32,6 @@ public class Main {
         
         CommandLineParser parser = new DefaultParser();
 
-//        HashMap<String, Integer> hm1 = new HashMap<>();
-//        HashMap<String, Integer> hm2 = new HashMap<>();
-//        
-//        hm1.put("test1", 1);
-//        hm1.put("test2", 2);
-//        hm1.put("test3", 3);
-//        System.out.println(hm1);
-//        hm2 = hm1;
-//        System.out.println(hm2);
-//        hm2.put("test2", 5);
-//        System.out.println(hm1);
-//        System.out.println(hm2);
-//        
-//        for (Map.Entry<String, Integer> entry : hm1.entrySet())
-//        {
-//            System.out.println(entry.getKey());
-//        }
-        
-       
         
         CommandLine cmd = null;
         try {
@@ -79,12 +60,6 @@ public class Main {
         
 	List<String> stopWords = new ArrayList<>();
 	
-	//Used the Arraylist and Arrays API
-	//Thamer told us to hard code in the stop words
-	//However we figured out how to open files
-	/*
-	prohibWords.addAll(Arrays.asList("a","about","above","after","again","against","all","am","an","and","any","are","aren't","as","at","be","because","been","before","being","below","between","both","but","by","can't","cannot","could","couldn't","did","didn't","do","does","doesn't","doing","don't","down","during","each","few","for","from","further","had","hadn't","has","hasn't","have","haven't","having","he","he'd","he'll","he's","her","here","here's","hers","herself","him","himself","his","how","how's","i","i'd","i'll","i'm","i've","if","in","into","is","isn't","it","it's","its","itself","let's","me","more","most","mustn't","my","myself","no","nor","not","of","off","on","once","only","or","other","ought","our","ours","ourselves","out","over","own","same","shan't","she","she'd","she'll","she","should","shouldn't","so","some","such","than","that","that's","the","their","theirs","them","themselves","then","there","there's","these","they","they'd","they'll","they're","they've","this","those","through","to","too","under","until","up","very","was","wasn't","we","we'd","we'll","we're","we've","were","weren't","what","what's","when","when's","where","where's","which","while","who","who's","whom","why","why's","with","won't","would","wouldn't","you","you'd","you'll","you're","you've","your","yours","yourself","yourselves"));
-	*/
 	
 	File stopWordFile = new File("../stopwords.txt");
         Scanner scanProhib = new Scanner(stopWordFile);
@@ -104,10 +79,8 @@ public class Main {
         sc.close();
         words = words.toLowerCase();
 
-//        words = words.replaceAll("[,\\:\\;\\'\"]", "");
+
         words = words.replaceAll(",|, |--|:|;|\"|'", "");
-//        words = words.replaceAll("--", "");
-	//words = words.replaceAll("-", ""); for night-cap to nightcap, sample output and the dash in there
 
         for (int i=0; i<stopWords.size(); i++)
         {	
@@ -123,10 +96,8 @@ public class Main {
         // Add all of the sentences from the text to a HashMap
         String[] wordsList = words.split("[.?!]");
         
-//	ArrayList<String> sentenceList = new ArrayList<>();
         HashSet<String> sentenceSet = new HashSet<>();
 	for(int i = 0; i < wordsList.length-1; i++){
-//		sentenceList.add(wordsList[i]);
                 if (!wordsList[i].equals("")) // Don't know why but ""'s are still being added
                 {
                     sentenceSet.add(wordsList[i]);
@@ -134,22 +105,6 @@ public class Main {
 	}
 	
         PorterStemmer ps = new PorterStemmer();
-       // Get the stem of all the words in the sentences and put them into ArrayLists
-       // Get the stem of all the words in the sentences and put them into HashMaps
-//        ArrayList<ArrayList<String>> listOfWordsInSentences = new ArrayList<>();
-//        String[] psWords;
-//        for (int i=0; i<sentenceList.size(); i++)
-//        {
-//            psWords = sentenceList.get(i).split(" ");
-//            for (int j=0; j<psWords.length; j++)
-//            {
-//                psWords[j] = ps.stem(psWords[j]);
-//            }
-//            ArrayList<String> currSentence = new ArrayList<String>(Arrays.asList(psWords));
-//            listOfWordsInSentences.add(currSentence);
-//        }
-//        HashMap<HashMap<String, Integer>, Integer> mapOfWordsInSentences = new HashMap<>();
-//        for (Map.Entry<String, Integer> entry : hm1.entrySet())
 
         // Get the stem of all the words in all the sentences and put them into HashSets of sentences within setOfWordsInSentences
         HashSet<HashSet<String>> setOfWordsInSentences  = new HashSet<>();
@@ -161,12 +116,9 @@ public class Main {
             HashSet<String> currSentence = new HashSet<>();
             while (scanSentences.hasNext())
             {
-                // Add all root words to the current sentence but only if it is not ""
                 String nextWord = ps.stem(scanSentences.next());
-//                if (!"".equals(nextWord))
-//                {
                     currSentence.add(nextWord);
-//                }                
+               
             }
             setOfWordsInSentences.add(currSentence);
         }
@@ -174,30 +126,16 @@ public class Main {
         
 	
 	
-	 if (cmd.hasOption("s")) {
-//	    for (int i=0; i<listOfWordsInSentences.size(); i++)
-//	    {
-//                ArrayList<String> currSentence = listOfWordsInSentences.get(i);
-//                for (int j=0; j<currSentence.size(); j++)
-//                {
-//                    System.out.print(currSentence.get(j) + " ");
-//                }
-//            System.out.println();
-//            }
+	 if (cmd.hasOption("s")) {  
             for (HashSet<String> currSentence: setOfWordsInSentences)
             {
                 System.out.println(currSentence);
             }
 	    
             System.out.println("Num sentences: " + setOfWordsInSentences.size());
-//	    System.out.println(sentenceList.size());
             
         }
         
-        
-//        System.out.println(vect.mapForOneWord("know"));
-// 
-
 // FIX VECTORS NEXT!!!!
 
 
@@ -208,8 +146,6 @@ public class Main {
         {
             for (String word: sentence)
             {
-//                System.out.println("Semantic descriptor vector for " + word + ":");
-//                System.out.println(vect.mapForOneWord(word) + "\n");
                 Vector vect = new Vector(setOfWordsInSentences, word);
                 vectors.put(word, vect.getVector());
             }
