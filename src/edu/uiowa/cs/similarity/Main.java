@@ -73,11 +73,14 @@ public class Main {
         
         Scanner sc = new Scanner(file);
 	String words = "";
+	StringBuilder sB = new StringBuilder();
         while(sc.hasNext())
         {
-	    words += sc.next() + " ";
+	    //words += sc.next() + " ";
+		sB.append(sc.next()).append(" ");
         }
         sc.close();
+	words = sB.toString();
         words = words.toLowerCase();
 
 
