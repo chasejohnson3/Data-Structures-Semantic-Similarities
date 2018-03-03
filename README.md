@@ -10,4 +10,5 @@ determine how similar words are.
 
 The interesting code in this repository is all in src/edu/uiowa/cs/similarity/ where the two most important files are Main.java and Vector.java.
 The main function allows a user to pass in command line options such as passing in text documents, choosing the means of similarity 
-calculation, among others.
+calculation, among others.  By the end of the project, we were able to successfully complete every form of word comparison calculation and 
+received the highest score on this final project in a class of about 300 students.
