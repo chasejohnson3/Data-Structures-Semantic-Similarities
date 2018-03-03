@@ -143,15 +143,17 @@ public class Main {
 // FIX VECTORS NEXT!!!!
 
 
-    
+        int count = 0;
         HashMap vectors = new HashMap<String, HashMap>();
         // This for each loop that uses the vector constructor is what takes so long
         for (HashSet<String> sentence: setOfWordsInSentences)
         {
             for (String word: sentence)
             {
+                System.out.println(count);
                 Vector vect = new Vector(setOfWordsInSentences, word);
                 vectors.put(word, vect.getVector());
+                count ++;
             }
         }
         
